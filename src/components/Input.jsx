@@ -17,6 +17,7 @@ const Input = ({ type, placeholder, value, onChange }) => {
                 value={value}
                 onChange={onChange}
                 className="bg-gray-50 focus:bg-white border border-gray-300 text-gray-900 text-sm rounded w-full p-2.5"
+                required
             />
             {type === 'password' && (
                 <button

@@ -1,5 +1,4 @@
-import { combineReducers } from 'redux'
-import { LOGIN_SUCCESS, LOGOUT } from './actions'
+import { LOGIN_SUCCESS, LOGOUT } from '../actions/authActions'
 
 const initialState = {
     isAuthenticated: false,
@@ -22,6 +21,4 @@ const authReducer = (state = initialState, action) => {
     }
 }
 
-export default combineReducers({
-    auth: authReducer,
-})
+export default authReducer

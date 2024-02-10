@@ -1,24 +1,19 @@
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import Navbar from './components/Navbar'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import Ticket from './Ticket'
+import { useState } from 'react'
+import Input from './Input'
+import AddTicket from './AddTicket'
 
-function Home() {
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/login')
-        }
-    }, [isAuthenticated, navigate])
+const List = ({ name, tickets, status }) => {
+    const [shouldShowAddTicketModal, setShouldShowAddTicketModal] =
+        useState(false)
 
     return (
         <>
-            <Navbar />
-
-            <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow m-5">
-                <div className="flex justify-end px-4 py-4">
+            <div className="w-full h-fit bg-white border border-gray-200 rounded-lg shadow my-5">
+                <div className="flex justify-between px-4 py-4">
+                    <p className="p-1 font-medium">{name}</p>
                     <button
                         id="dropdownButton"
                         data-dropdown-toggle="dropdown"
@@ -68,31 +63,28 @@ function Home() {
                         </ul>
                     </div>
                 </div>
-                {/* <div className="flex flex-col items-center pb-10">
-                    <h5 className="mb-1 text-xl font-medium text-gray-900">
-                        Bonnie Green
-                    </h5>
-                    <span className="text-sm text-gray-500">
-                        Visual Designer
-                    </span>
-                    <div className="flex mt-4 md:mt-6">
-                        <a
-                            href="#"
-                            className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
-                        >
-                            Add friend
-                        </a>
-                        <a
-                            href="#"
-                            className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 ms-3"
-                        >
-                            Message
-                        </a>
-                    </div>
-                </div> */}
+                <div className="flex flex-col px-2 pb-2.5">
+                    {tickets?.map((ticket) => (
+                        <Ticket name={ticket.title}></Ticket>
+                    ))}
+
+                    <button
+                        onClick={() => setShouldShowAddTicketModal(true)}
+                        className="text-gray-600 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                    >
+                        <FontAwesomeIcon icon={faPlus} /> Add a ticket
+                    </button>
+                </div>
             </div>
+            {shouldShowAddTicketModal && (
+                <AddTicket
+                    name={name}
+                    status={status}
+                    setShouldShowAddTicketModal={setShouldShowAddTicketModal}
+                ></AddTicket>
+            )}
         </>
     )
 }
 
-export default Home
+export default List

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import Input from './components/Input'
-import Button from './components/Button'
-import axios from './api.js'
+import Input from '../components/Input.jsx'
+import Button from '../components/Button.jsx'
+import axios from '../mockAPI/api.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginSuccess } from './actions'
+import { loginSuccess } from '../actions/authActions.js'
 import { useNavigate } from 'react-router-dom'
 
 function Login() {
@@ -16,8 +16,6 @@ function Login() {
 
     const handleSubmit = async () => {
         setError('')
-
-        await new Promise((resolve) => setTimeout(resolve, 2000))
 
         try {
             const response = await axios.post('/login', {

@@ -1,8 +1,8 @@
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
 
-export const loginSuccess = () => ({
-    type: LOGIN_SUCCESS,
+export const login = () => ({
+    type: LOGIN,
 })
 
 export const logout = () => ({

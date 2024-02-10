@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGOUT } from '../actions/authActions'
+import { LOGIN, LOGOUT } from '../actions/authActions'
 
 const initialState = {
     isAuthenticated: false,
@@ -6,7 +6,7 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOGIN_SUCCESS:
+        case LOGIN:
             return {
                 ...state,
                 isAuthenticated: true,

@@ -65,7 +65,11 @@ const List = ({ name, tickets, status }) => {
                 </div>
                 <div className="flex flex-col px-2 pb-2.5">
                     {tickets?.map((ticket) => (
-                        <Ticket name={ticket.title}></Ticket>
+                        <Ticket
+                            name={ticket.title}
+                            id={ticket.id}
+                            status={status}
+                        ></Ticket>
                     ))}
 
                     <button

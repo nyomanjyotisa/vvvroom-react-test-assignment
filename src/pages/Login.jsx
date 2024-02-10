@@ -3,7 +3,7 @@ import Input from '../components/Input.jsx'
 import Button from '../components/Button.jsx'
 import axios from '../mockAPI/api.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginSuccess } from '../actions/authActions.js'
+import { login } from '../actions/authActions.js'
 import { useNavigate } from 'react-router-dom'
 
 function Login() {
@@ -23,7 +23,7 @@ function Login() {
                 password,
             })
             console.log('Login successful', response.data)
-            dispatch(loginSuccess())
+            dispatch(login())
             navigate('/')
         } catch (error) {
             if (

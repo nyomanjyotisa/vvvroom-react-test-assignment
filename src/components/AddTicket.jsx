@@ -21,7 +21,7 @@ const AddTicket = ({ name, status, setShouldShowAddTicketModal }) => {
             }
 
             const response = await axiosInstance.post('/ticket', newTicket)
-            
+
             dispatch(createTicket(newTicket))
             setTitle('')
             setDescription('')
@@ -58,7 +58,10 @@ const AddTicket = ({ name, status, setShouldShowAddTicketModal }) => {
                         <div className="w-full">
                             <div className="text-center sm:text-left space-y-4">
                                 <h3 className="text-lg leading-6 font-medium text-gray-900">
-                                    Add Ticket <span className='font-normal'>({name})</span>
+                                    Add Ticket{' '}
+                                    <span className="font-normal">
+                                        ({name})
+                                    </span>
                                 </h3>
                                 <div className="mt-2 space-y-4">
                                     <div

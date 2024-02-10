@@ -1,15 +1,49 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Input from './components/Input'
 import Button from './components/Button'
+import axios from './api.js'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginSuccess } from './actions'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleSubmit = async () => {
+        setError('')
+
         await new Promise((resolve) => setTimeout(resolve, 2000))
-        console.log('handleSubmit')
+
+        try {
+            const response = await axios.post('/login', {
+                email,
+                password,
+            })
+            console.log('Login successful', response.data)
+            dispatch(loginSuccess())
+            navigate('/')
+        } catch (error) {
+            if (
+                error.response.status === 401 &&
+                error.response.data.message != ''
+            ) {
+                setError(error.response.data.message)
+            } else {
+                setError('An error occurred during login')
+            }
+        }
     }
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/')
+        }
+    }, [isAuthenticated, navigate])
 
     return (
         <section className="bg-gray-50">
@@ -20,11 +54,16 @@ function Login() {
                             Log in to continue
                         </h1>
                         <form className="space-y-4">
+                            <div
+                                className={`${error ? 'p-2.5' : ''} text-sm text-red-800 rounded bg-red-100`}
+                            >
+                                {error}
+                            </div>
                             <Input
                                 type="text"
                                 placeholder="Enter your email"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                             <Input
                                 type="password"

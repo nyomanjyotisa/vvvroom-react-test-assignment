@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const LogoutButton = ({ type, onClick, children }) => {
+const SubmitButton = ({ type, onClick, children }) => {
     const [loading, setLoading] = useState(false)
 
     const handleClick = async () => {
@@ -14,7 +14,7 @@ const LogoutButton = ({ type, onClick, children }) => {
             type={type}
             onClick={handleClick}
             disabled={loading}
-            className={`w-24 text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 focus:outline-none ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`w-24 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:text-sm ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
             {loading ? (
                 <svg
@@ -40,4 +40,4 @@ const LogoutButton = ({ type, onClick, children }) => {
     )
 }
 
-export default LogoutButton
+export default SubmitButton

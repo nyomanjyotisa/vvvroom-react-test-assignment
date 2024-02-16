@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import Input from '../components/Input.jsx'
 import Button from '../components/Button.jsx'
-import axios from '../mockAPI/api.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../actions/authActions.js'
 import { useNavigate } from 'react-router-dom'
@@ -18,21 +17,17 @@ function Login() {
         setError('')
 
         try {
-            const response = await axios.post('/login', {
-                email,
-                password,
-            })
-            console.log('Login successful', response.data)
-            dispatch(login())
-            navigate('/')
+            await dispatch(login(email, password));
+            navigate('/');
         } catch (error) {
             if (
+                error.response &&
                 error.response.status === 401 &&
-                error.response.data.message != ''
+                error.response.data.message !== ''
             ) {
-                setError(error.response.data.message)
+                setError(error.response.data.message);
             } else {
-                setError('An error occurred during login')
+                setError('An error occurred during login');
             }
         }
     }

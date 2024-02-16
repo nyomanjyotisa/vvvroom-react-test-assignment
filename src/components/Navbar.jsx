@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { logout } from '../actions/authActions'
-import axiosInstance from '../mockAPI/api'
 import LogoutButton from './buttons/LogoutButton'
 
 const Navbar = () => {
@@ -10,8 +9,7 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            await axiosInstance.post('/logout')
-            dispatch(logout())
+            await dispatch(logout())
             navigate('/login')
         } catch (error) {
             alert('Logout error: ' + error)

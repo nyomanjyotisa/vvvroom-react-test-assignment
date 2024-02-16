@@ -44,7 +44,7 @@ function Home() {
         <div className="bg-gray-50 min-h-screen">
             <Navbar />
 
-            <div className="grid md:grid-cols-3 gap-4 max-w-screen-xl mx-5 xl:mx-auto">
+            <div className="grid md:grid-cols-3 gap-4 max-w-screen-xl mx-5 xl:mx-auto my-5">
                 <List
                     name="Open"
                     status="open"

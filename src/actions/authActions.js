@@ -1,10 +1,27 @@
+import axiosInstance from "../mockAPI/api";
+
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
 
-export const login = () => ({
-    type: LOGIN,
-})
+export const login = (email, password) => {
+    return async (dispatch) => {
+        await axiosInstance.post('/login', {
+            email,
+            password,
+        });
 
-export const logout = () => ({
-    type: LOGOUT,
-})
+        dispatch({
+            type: LOGIN,
+        });
+    };
+};
+
+export const logout = () => {
+    return async (dispatch) => {
+        await axiosInstance.post('/logout')
+
+        dispatch({
+            type: LOGOUT,
+        });
+    };
+}

@@ -48,10 +48,24 @@ mock.onPost('/ticket').reply((config) => {
     const { title, description } = JSON.parse(config.data)
 
     if (title == '' && description == '') {
-        return [401, { message: 'All field required' }]
+        return [401, { message: 'All fields required' }]
     } else {
         return [200, { message: 'Add ticket success' }]
     }
 })
+
+mock.onPut('/ticket').reply((config) => {
+    const { id, title, description } = JSON.parse(config.data)
+
+    if (id && title !== '' && description !== '') {
+        return [200, { message: 'Update ticket success' }]
+    } else {
+        return [401, { message: 'All fields required' }]
+    }
+})
+
+mock.onDelete('/ticket').reply(() => {
+    return [200, { message: 'Delete ticket success' }];
+});
 
 export default axiosInstance

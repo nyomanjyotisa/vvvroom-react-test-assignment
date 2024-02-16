@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import DropdownMenu from './DropdownMenu'
 
-const Ticket = ({ name, id, status }) => {
+const Ticket = ({ ticket, name, id, status }) => {
     const navigate = useNavigate()
     const [shouldMenuOpen, setShouldMenuOpen] = useState(false)
+    const menuRef = useRef(null)
 
     const handleNavigation = () => {
         const route = `/ticket/${id}`
@@ -18,49 +18,29 @@ const Ticket = ({ name, id, status }) => {
         setShouldMenuOpen(!shouldMenuOpen)
     }
 
-    const renderMenuOption = () => {
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setShouldMenuOpen(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [menuRef])
+
+    const menuOptions = () => {
         switch (status) {
             case 'open':
-                return (
-                    <ul>
-                        <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                            Move to In Progress
-                        </li>
-                        <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                            Move to Completed
-                        </li>
-                        <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                            Delete
-                        </li>
-                    </ul>
-                )
+                return ['Move to In Progress', 'Move to Completed', 'Delete']
             case 'in-progress':
-                return (
-                    <ul>
-                        <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                            Move to Open
-                        </li>
-                        <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                            Move to Completed
-                        </li>
-                        <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                            Delete
-                        </li>
-                    </ul>
-                )
+                return ['Move to Open', 'Move to Completed', 'Delete']
             case 'completed':
-                return (
-                    <ul>
-                        <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                            Move to Open
-                        </li>
-                        <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                            Delete
-                        </li>
-                    </ul>
-                )
+                return ['Move to Open', 'Delete']
             default:
-                return null
+                return []
         }
     }
 
@@ -91,18 +71,12 @@ const Ticket = ({ name, id, status }) => {
                         </svg>
                     </button>
                     {shouldMenuOpen && (
-                        <div className="z-50 absolute text-left top-0 right-0 mt-2 w-48 bg-white shadow-md rounded-md">
-                            <div className="w-full text-right">
-                                <button
-                                    onClick={toggleMenu}
-                                    className="inline-block text-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg text-sm py-1.5 px-3 m-1.5"
-                                    type="button"
-                                >
-                                    <FontAwesomeIcon icon={faTimes} />
-                                </button>
-                            </div>
-                            {renderMenuOption()}
-                        </div>
+                        <DropdownMenu
+                            ref={menuRef}
+                            ticket={ticket}
+                            options={menuOptions()}
+                            onClose={toggleMenu}
+                        />
                     )}
                 </div>
             </div>
